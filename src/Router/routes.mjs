@@ -15,11 +15,7 @@ userrouter.get("/users/filtered",
     (req,res) => {
     const result = validationResult(req);
 
-    console.log(result)
-
     const {query: {filter, value}} = req
-
-    console.log("filter", filter, "value: ", value, "result", result)
 
     // !result.isEmpty()
     if(result.isEmpty()){
@@ -34,7 +30,6 @@ userrouter.get("/users/filtered",
 
 
 userrouter.get("/users",(req, res) => {
-    console.log("session Store",req.sessionStore);
     req.sessionStore.get(req.session.id, (err, sessionData) => {
         if(err) {
             console.log("error".err);
@@ -48,11 +43,10 @@ userrouter.get("/users",(req, res) => {
 
 userrouter.get("/users/:id", idChecks, (req, res) => {
     const {findUser} = req;
-    console.log(findUser)
-     const findusers = users[findUser]
-     if(!findusers) return res.status(400).send("Invalid Id..!");
+    const findusers = users[findUser]
+    if(!findusers) return res.status(400).send("Invalid Id..!");
  
-     return res.status(200).send(findusers)
+    return res.status(200).send(findusers)
  })
 
 //  post method
@@ -64,9 +58,7 @@ userrouter.post("/users/filtered", checkSchema(UserValidation),
         return res.status(400).send({error: result.array()})
 
     const data = matchedData(req);
-    console.log(data)
     const newUser = { id: users[users.length - 1].id + 1, ...data}
-    console.log(newUser)
     users.push(newUser)
     return res.status(200).send(users);
 })
@@ -75,7 +67,6 @@ userrouter.post("/users/filtered", checkSchema(UserValidation),
 userrouter.put("/users/:id", idChecks, (req, res) => {
     const {body, findUser} = req;
     users[findUser] = {id:users[findUser].id, ...body}
-    console.log(users[findUser])
     return res.status(200).send(users)
 })
 

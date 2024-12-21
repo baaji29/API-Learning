@@ -1,15 +1,13 @@
 import { Router } from "express";
 import userrouter from "./routes.mjs";
 import moviesRouter from "./moviesRoutes.mjs";
-
-// const Router = require("express");
-// const userrouter = require("./routes.mjs");
-// const moviesRouter = require("./moviesRoutes.mjs");
+import authRouter from "./authRoute.mjs";
 
 const router = Router();
 
 router.use(userrouter);
 router.use(moviesRouter);
+router.use(authRouter);
 
 
 export default router;
