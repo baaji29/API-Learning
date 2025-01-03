@@ -1,20 +1,33 @@
-export const UserValidation ={
+import { checkSchema } from "express-validator";
+import { message } from "../Config/ValidationsMessage.mjs";
+
+export const UserValidation =checkSchema({
+    email: {
+        isEmail: {
+            errorMessage: message.emailFormat
+        },
+        notEmpty: {
+            errorMessage : message.emailRequired
+        },
+    },
     name: {
         isLength: {
             options: {
                 min: 3,
                 max: 18,
             },
-            errorMessage: "Must have minimum 3 char and Maximum 218 character",
+            errorMessage: message.nameLength,
         },
         notEmpty: {
-            errorMessage: "Name should not be Empty",
+            errorMessage: message.nameRequired,
         },
         isString: {
-            errorMessage: "Name should be string",
+            errorMessage: message.nameString,
         },
     },
-    gender: {
-        notEmpty: true
-    }
-};
+    password: {
+        notEmpty: {
+            errorMessage: message.pa
+        }
+    },
+});

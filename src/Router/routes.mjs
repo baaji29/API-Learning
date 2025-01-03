@@ -1,8 +1,7 @@
 import { Router } from "express";
-import { checkSchema, matchedData, query, validationResult } from "express-validator"; 
+import {  query } from "express-validator"; 
 import { user } from "../util/userData.mjs";
 import { idChecks } from "../util/idCheck.mjs";
-import { UserValidation } from "../util/validation.mjs";
 
 
 const userrouter = Router();
@@ -10,10 +9,8 @@ const userrouter = Router();
 const users = user;
 
 userrouter.get("/users/filtered", 
-    // checkSchema(UserValidation),
     query("value").isString().isLength({min: 3, max: 8}).withMessage("Must be atleast 3 character and should not exceed 8 char").notEmpty().withMessage("should not Empty") ,
     (req,res) => {
-    const result = validationResult(req);
 
     const {query: {filter, value}} = req
 
@@ -50,14 +47,15 @@ userrouter.get("/users/:id", idChecks, (req, res) => {
  })
 
 //  post method
-userrouter.post("/users/filtered", checkSchema(UserValidation),
+userrouter.post("/users/filtered", 
+    // checkSchema(UserValidation),
     // body("name").isString().notEmpty().isLength({min: 3, max: 18}).withMessage("Minimum 3 character and Maximum 18 character"), 
     (req,res) => {
-    const result = validationResult(req);
-    if(!result.isEmpty())
-        return res.status(400).send({error: result.array()})
+    // const result = validationResult(req);
+    // if(!result.isEmpty())
+    //     return res.status(400).send({error: result.array()})
 
-    const data = matchedData(req);
+    // const data = matchedData(req);
     const newUser = { id: users[users.length - 1].id + 1, ...data}
     users.push(newUser)
     return res.status(200).send(users);

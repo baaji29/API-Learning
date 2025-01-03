@@ -8,11 +8,7 @@ const moviesRouter = Router();
 const movie = movies;
 
 moviesRouter.get("/movies", verifyToken, authorizeRole("user"), (req, res) => {
-    if(req.signedCookies.Cookies && req.signedCookies.Cookies === "learning")
-        return res.status(200).send(movie);
-    
-    return res.status(403).send([{err: "Sorry....!, There is no cookies or cookies is wrong..! "}])
-    
+        return res.status(200).send(movie);    
 })
 
 export default moviesRouter;
